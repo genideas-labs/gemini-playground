@@ -173,7 +173,14 @@ export const PlaygroundStateProvider = ({
   const [showAuthDialog, setShowAuthDialog] = useState(false);
 
   useEffect(() => {
+    const envKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
     const storedKey = localStorage.getItem(LS_GEMINI_API_KEY_NAME);
+
+    if (envKey && envKey.length > 1) {
+      dispatch({ type: "SET_API_KEY", payload: envKey });
+      return;
+    }
+
     if (storedKey && storedKey.length >= 1) {
       dispatch({ type: "SET_API_KEY", payload: storedKey });
     } else {
